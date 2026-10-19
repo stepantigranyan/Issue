@@ -1,0 +1,5 @@
+@import "tailwindcss";
+
+textarea::-webkit-scrollbar {
+    display: none;
+}
