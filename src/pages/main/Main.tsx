@@ -6,20 +6,16 @@ import Search from "../../components/ui/search/Search.tsx";
 import Navbar from "../../components/ui/navbar/Navbar.tsx";
 import Button from "../../components/ui/button/Button.tsx";
 
-import IssueModal from "../../components/modal/IssueModal.tsx";
+import IssueModal from "../../components/modal/issue/IssueModal.tsx";
 import LabelModal from "../../components/modal/LabelModal.tsx";
 
-import {IssueRepository} from "../../repositories/issue/issue.repository.ts";
-import {IssueService} from "../../services/issue/issue.service.ts";
+import {issueService} from "../../services/service.ts";
 
 import {generateId} from "../../utils/generateId";
 
-const issueRepository = new IssueRepository();
-const issuseService = new IssueService(issueRepository);
-
 const Main = () => {
     const {showIssues, showLabels, openIssueModal, closeIssueModal, openLabelModal, closeLabelModal} = useModal();
-    const {issues, addIssue, editIssue, deleteIssue} = useIssueService(issuseService);
+    const {issues, addIssue, editIssue, deleteIssue} = useIssueService(issueService);
 
     return (
         <>
@@ -29,8 +25,16 @@ const Main = () => {
                 <Header styles={"mt-20"}>
                     <h1 className="text-3xl font-bold">Issues</h1>
                     <div className="flex items-center gap-x-5">
-                        <Button onSubmit={openIssueModal} title={"New Issue"} styles={"border-2 border-solid border-gray-800 rounded-xl hover:bg-gray-800 hover:text-white"}/>
-                        <Button onSubmit={openLabelModal} title={"New Label"} styles={"border-2 border-solid border-gray-800 rounded-xl hover:bg-gray-800 hover:text-white"}/>
+                        <Button
+                            onSubmit={openIssueModal}
+                            title={"New Issue"}
+                            styles={"border-2 border-solid border-gray-800 rounded-xl hover:bg-gray-800 hover:text-white"}
+                        />
+                        <Button
+                            onSubmit={openLabelModal}
+                            title={"New Label"}
+                            styles={"border-2 border-solid border-gray-800 rounded-xl hover:bg-gray-800 hover:text-white"}
+                        />
                     </div>
                 </Header>
                 <main className="w-full flex items-center justify-center">

@@ -3,30 +3,30 @@ import type {IssueService} from "../services/issue/issue.service.ts";
 import type {Issue, IssueAttributes} from "../models/issue/issue.type.ts";
 import type {LabelAttributes} from "../models/label/label.type.ts";
 
-const useIssueService = (issueService: IssueService) => {
+const useIssueService = (service: IssueService) => {
     const [issues, setIssues] = useState<Issue[]>([]);
 
     const loadIssues= useCallback(() => {
-        const data = issueService.getAll(0);
+        const data = service.getAll(0);
         setIssues(data);
-    }, [issueService]);
+    }, [service]);
 
     useEffect(() => {
         loadIssues();
     }, [loadIssues]);
 
     const addIssue = (issue: IssueAttributes, labels: LabelAttributes[]) => {
-        const data = issueService.create(issue, labels);
+        const data = service.create(issue, labels);
         setIssues([...issues, data]);
     };
 
     const editIssue = (id:  string, issue: IssueAttributes, labels: LabelAttributes[]) => {
-        const data = issueService.update(id, issue, labels);
+        const data = service.update(id, issue, labels);
         setIssues((prev) => prev.map((x) => x.id === id ? data : x));
     };
 
     const deleteIssue = (id:  string) => {
-        issueService.delete(id);
+        service.delete(id);
         setIssues((prev) => prev.filter((x) => x.id !== id));
     };
 
