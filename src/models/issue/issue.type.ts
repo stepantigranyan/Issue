@@ -1,4 +1,4 @@
-import type {LabelAttributes} from "../label/label.type.ts";
+import type {Label} from "../label/label.type.ts";
 
 export interface IssueAttributes {
     title: string;
@@ -7,5 +7,5 @@ export interface IssueAttributes {
 
 export interface Issue extends IssueAttributes {
     id: string;
-    labels: LabelAttributes[];
+    labels: Label[];
 }

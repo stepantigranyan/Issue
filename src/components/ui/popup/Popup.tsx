@@ -1,4 +1,4 @@
-import {type FC, type JSX, useRef} from 'react';
+import {type FC, type JSX, memo, useRef} from 'react';
 
 import useOutsideClick from "../../../hooks/useOutsideClick.ts";
 import Teleport from "../../shared/Teleport.tsx";
@@ -6,16 +6,17 @@ import Teleport from "../../shared/Teleport.tsx";
 export interface PopupProps {
     children: JSX.Element[];
     onCancel: () => void;
+    style?: string;
 }
 
-const PopUp: FC<PopupProps> = ({ children, onCancel}) => {
+const PopUp: FC<PopupProps> = ({ children, onCancel, style}) => {
     const wrapperRef = useRef<HTMLDivElement>(null);
     useOutsideClick(wrapperRef, onCancel);
 
     return (
         <Teleport target={'root-portal'}>
             <div className={'h-screen w-full backdrop-blur-sm flex items-center justify-center absolute top-0 left-0 z-100'}>
-                <div className={'border border-solid border-gray-800 rounded-2xl flex flex-col items-center justify-center gap-y-10  p-10 bg-white z-100'} ref={wrapperRef}>
+                <div className={`${style} p-10 bg-white z-100`} ref={wrapperRef}>
                     {children}
                 </div>
             </div>
@@ -23,4 +24,4 @@ const PopUp: FC<PopupProps> = ({ children, onCancel}) => {
     );
 };
 
-export default PopUp;
+export default memo(PopUp);

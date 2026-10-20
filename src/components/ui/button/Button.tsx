@@ -1,17 +1,22 @@
-import type {FC} from "react";
+import {type FC, type JSX, memo} from "react";
 
 export interface ButtonProps {
-    title: string;
+    title: string | JSX.Element;
     onSubmit: () => void;
     styles?: string;
+    disabled?: boolean;
 }
 
-const Button: FC<ButtonProps> = ({title, styles, onSubmit}) => {
+const Button: FC<ButtonProps> = ({title, styles, onSubmit, disabled}) => {
     return (
-        <button className={`cursor-pointer outline-none px-5 py-3 ${styles}`} onClick={onSubmit}>
+        <button
+            disabled={disabled === undefined ? false : disabled}
+            className={`cursor-pointer outline-none px-5 py-3 ${styles}`}
+            onClick={onSubmit}
+        >
             {title}
         </button>
     );
 };
 
-export default Button;
+export default memo(Button);

@@ -1,4 +1,4 @@
-import type {FC} from "react";
+import {type FC, memo} from "react";
 import type {MenuAttributes} from "../../navbar/Navbar.tsx";
 import Dropdown from "../Dropdown.tsx";
 
@@ -16,4 +16,4 @@ const DropdownItem: FC<MenuAttributes> = ({title, dropdown}) => {
     );
 };
 
-export default DropdownItem;
+export default memo(DropdownItem);

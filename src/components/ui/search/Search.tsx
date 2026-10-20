@@ -1,3 +1,5 @@
+import {memo} from "react";
+
 const Search = () => {
     return (
         <div className="flex items-center gap-x-5">
@@ -9,4 +11,4 @@ const Search = () => {
     );
 };
 
-export default Search;
+export default memo(Search);

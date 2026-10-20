@@ -1,6 +1,6 @@
 import type {IssueRepositoryTypes} from "../../repositories/issue/issue.repository.ts";
 import type {Issue, IssueAttributes} from "../../models/issue/issue.type.ts";
-import type {LabelAttributes} from "../../models/label/label.type.ts";
+import type {Label} from "../../models/label/label.type.ts";
 
 export class IssueService {
     private readonly issueRepository: IssueRepositoryTypes;
@@ -9,8 +9,8 @@ export class IssueService {
         this.issueRepository = issueRepository;
     }
 
-    create(data: IssueAttributes, labels: LabelAttributes[]): Issue {
-        return this.create(data, labels);
+    create(data: IssueAttributes, labels: Label[]): Issue {
+        return this.issueRepository.create(data, labels);
     }
 
     getAll(from: number, to?: number): Issue[] {
@@ -21,11 +21,11 @@ export class IssueService {
         return this.issueRepository.getOne(id);
     }
 
-    update(id: string, data: IssueAttributes, labels: LabelAttributes[]): Issue {
+    update(id: string, data: IssueAttributes, labels: Label[]): Issue {
         return this.issueRepository.update(id, data, labels);
     }
 
-    delete(id: string): void {
+    del(id: string): void {
         this.issueRepository.delete(id);
     }
  }

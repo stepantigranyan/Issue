@@ -1,32 +1,36 @@
 import {useState} from "react";
 
 const useModal = () => {
-    const [showIssues, setShowIssues] = useState<boolean>(false);
-    const [showLabels, setShowLabels] = useState<boolean>(false);
+    const [showAddIssue, setShowAddIssue] = useState<boolean>(false);
+    const [showAddLabel, setShowLabelsModal] = useState<boolean>(false);
+    const [showEditIssue, setShowEditIssue] = useState<boolean>(false);
+    const [showInfoIssue, setShowInfoIssue] = useState<boolean>(false);
 
-    const openIssueModal = () => {
-        setShowIssues(true);
+    const toggleAddIssue = () => {
+        setShowAddIssue((prev) => !prev);
     };
 
-    const closeIssueModal = () => {
-        setShowIssues(false);
+    const toggleAddLabel = () => {
+        setShowLabelsModal((prev) => !prev);
     };
 
-    const openLabelModal = () => {
-        setShowLabels(true);
-    };
+    const toggleEditIssue = () => {
+        setShowEditIssue((prev) => !prev);
+    }
 
-    const closeLabelModal = () => {
-        setShowLabels(false);
-    };
+    const toggleInfoIssue = () => {
+        setShowInfoIssue((prev) => !prev);
+    }
 
     return {
-        showIssues,
-        showLabels,
-        openIssueModal,
-        closeIssueModal,
-        openLabelModal,
-        closeLabelModal,
+        showAddIssue,
+        showAddLabel,
+        showEditIssue,
+        showInfoIssue,
+        toggleAddIssue,
+        toggleAddLabel,
+        toggleEditIssue,
+        toggleInfoIssue
     };
 };
 

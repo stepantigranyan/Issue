@@ -1,5 +1,5 @@
 import {createPortal} from "react-dom";
-import type {FC, JSX} from "react";
+import {type FC, type JSX, memo} from "react";
 
 export interface TeleportProps {
     children: JSX.Element;
@@ -15,4 +15,4 @@ const Teleport: FC<TeleportProps> = ({ children, target = 'root-portal' }) => {
     );
 };
 
-export default Teleport
+export default memo(Teleport)

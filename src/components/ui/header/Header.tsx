@@ -1,4 +1,4 @@
-import type {FC, JSX} from "react";
+import {type FC, type JSX, memo} from "react";
 
 interface HeaderProps {
     styles?: string;
@@ -13,4 +13,4 @@ const Header: FC<HeaderProps> = ({children, styles}) => {
     );
 };
 
-export default Header;
+export default memo(Header);

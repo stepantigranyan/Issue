@@ -1,4 +1,4 @@
-import type {FC} from "react";
+import {type FC, memo} from "react";
 import NavBarItem from "./navbarItem/NavbarItem.tsx";
 
 export interface MenuAttributes {
@@ -24,4 +24,4 @@ const Navbar: FC<MenuProps> = ({data}) => {
     );
 };
 
-export default Navbar;
+export default memo(Navbar);

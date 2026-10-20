@@ -1,11 +1,12 @@
 import {type ChangeEvent, type FC, useState} from "react";
-import type {Modal} from "./types.ts";
-import {labelService} from "../../services/service.ts";
-import type {LabelAttributes} from "../../models/label/label.type.ts";
-import Popup from "../ui/popup/Popup.tsx";
-import Button from "../ui/button/Button.tsx";
+import type {Modal} from "../types.ts";
+import type {LabelAttributes} from "../../../models/label/label.type.ts";
+import Popup from "../../ui/popup/Popup.tsx";
+import Button from "../../ui/button/Button.tsx";
 
-const LabelModal: FC<Modal> = ({onCancel}) => {
+import {createLabel} from "../../../services/service.ts";
+
+const LabelAddModal: FC<Modal> = ({onCancel}) => {
     const [name, setName] = useState<string>("");
     const [color, setColor] = useState<string>("#000000");
 
@@ -16,18 +17,17 @@ const LabelModal: FC<Modal> = ({onCancel}) => {
 
     const handleInputColor = (event: ChangeEvent<HTMLInputElement>) => {
         const {value} = event.currentTarget;
-        console.log(value)
         setColor(value);
     };
 
     const handleAddLabel = () => {
         const data: LabelAttributes = {name, color}
-        labelService.create(data);
+        createLabel(data);
         onCancel();
     };
 
     return (
-        <Popup onCancel={onCancel}>
+        <Popup style="border border-solid border-gray-800 rounded-2xl flex flex-col items-center justify-center gap-y-10" onCancel={onCancel}>
             <h2 className="text-2xl text-gray-800 font-bold">Add new label</h2>
             <div className="flex flex-col gap-y-10">
                 <div className="grid grid-cols-2 items-center">
@@ -54,12 +54,21 @@ const LabelModal: FC<Modal> = ({onCancel}) => {
                     </div>
                 </div>
                 <div className="flex items-center justify-center gap-x-10 w-full">
-                    <Button styles={"border-2 border-solid border-gray-800 rounded-xl hover:bg-green-800 hover:border-green-800 hover:text-white"} title={"Add"} onSubmit={handleAddLabel}/>
-                    <Button styles={"border-2 border-solid border-gray-800 rounded-xl hover:bg-red-800 hover:border-red-800 hover:text-white"} title={"Cancel"} onSubmit={onCancel}/>
+                    <Button
+                        disabled={Boolean(!name.trim() || !color.trim())}
+                        styles={"border-2 border-solid border-gray-800 rounded-xl hover:bg-green-800 hover:border-green-800 hover:text-white disabled:bg-gray-400 disabled:border-gray-800 disabled:text-gray-800 disabled:cursor-not-allowed"}
+                        title={"Add"}
+                        onSubmit={handleAddLabel}
+                    />
+                    <Button
+                        styles={"border-2 border-solid border-gray-800 rounded-xl hover:bg-red-800 hover:border-red-800 hover:text-white"}
+                        title={"Cancel"}
+                        onSubmit={onCancel}
+                    />
                 </div>
             </div>
         </Popup>
     );
 };
 
-export default LabelModal;
+export default LabelAddModal;

@@ -1,0 +1,2 @@
+export const MAX_DESCRIPTION_LENGTH_FOR_VIEW = 155;
+export const VISIBLE_ISSUES_COUNT = 3;

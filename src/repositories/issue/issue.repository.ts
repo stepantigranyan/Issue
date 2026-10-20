@@ -1,5 +1,5 @@
 import type {Issue, IssueAttributes} from "../../models/issue/issue.type.ts";
-import type {LabelAttributes} from "../../models/label/label.type.ts";
+import type {LabelAttributes, Label} from "../../models/label/label.type.ts";
 import {generateId} from "../../utils/generateId";
 
 export interface IssueRepositoryTypes {
@@ -13,7 +13,7 @@ export interface IssueRepositoryTypes {
 const STORAGE_KEY = "issues";
 
 export class IssueRepository implements IssueRepositoryTypes {
-    create(data: IssueAttributes, labels: LabelAttributes[]): Issue {
+    create(data: IssueAttributes, labels: Label[]): Issue {
         const issues = this.getAll(0);
 
         const issue: Issue = {
@@ -22,7 +22,7 @@ export class IssueRepository implements IssueRepositoryTypes {
             ...data
         };
 
-        localStorage.setItem(STORAGE_KEY, JSON.stringify([...issues, issue]));
+        localStorage.setItem(STORAGE_KEY, JSON.stringify([issue, ...issues]));
         return issue;
     }
 
@@ -31,12 +31,11 @@ export class IssueRepository implements IssueRepositoryTypes {
             localStorage.getItem(STORAGE_KEY) ? localStorage.getItem(STORAGE_KEY) : "[]"
         ) as Issue[];
 
-
         if (to !== undefined) {
-            if (from + to + 1 > issues.length) {
+            if (to > issues.length) {
                 issues = issues.slice(from, issues.length);
             } else {
-                issues = issues.slice(from, from + to + 1);
+                issues = issues.slice(from, to);
             }
         }
 
@@ -48,7 +47,7 @@ export class IssueRepository implements IssueRepositoryTypes {
         return issues.find(x => x.id === id);
     }
 
-    update(id: string, data: IssueAttributes, labels: LabelAttributes[]): Issue {
+    update(id: string, data: IssueAttributes, labels: Label[]): Issue {
         const issues = this.getAll(0);
         const issueIndex = issues.findIndex(x => x.id === id);
 

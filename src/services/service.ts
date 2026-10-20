@@ -6,3 +6,8 @@ import {LabelService} from "./label/label.service.ts";
 
 export const issueService = new IssueService(new IssueRepository());
 export const labelService = new LabelService(new LabelRepository());
+
+export const createLabel = labelService.create.bind(labelService);
+export const updateLabel = labelService.update.bind(labelService);
+export const getOneLabel = labelService.getOne.bind(labelService);
+export const getAllLabels = labelService.getAll.bind(labelService);
