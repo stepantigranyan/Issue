@@ -1,4 +1,4 @@
-import {useState} from "react";
+import {useCallback, useState} from "react";
 
 const useModal = () => {
     const [showAddIssue, setShowAddIssue] = useState<boolean>(false);
@@ -6,21 +6,21 @@ const useModal = () => {
     const [showEditIssue, setShowEditIssue] = useState<boolean>(false);
     const [showInfoIssue, setShowInfoIssue] = useState<boolean>(false);
 
-    const toggleAddIssue = () => {
+    const toggleAddIssue = useCallback(() => {
         setShowAddIssue((prev) => !prev);
-    };
+    }, []);
 
-    const toggleAddLabel = () => {
+    const toggleAddLabel = useCallback(() => {
         setShowLabelsModal((prev) => !prev);
-    };
+    }, []);
 
-    const toggleEditIssue = () => {
+    const toggleEditIssue = useCallback(() => {
         setShowEditIssue((prev) => !prev);
-    }
+    }, []);
 
-    const toggleInfoIssue = () => {
+    const toggleInfoIssue = useCallback(() => {
         setShowInfoIssue((prev) => !prev);
-    }
+    }, [])
 
     return {
         showAddIssue,

@@ -22,6 +22,17 @@ const Pagination: FC<PaginationProps> = ({style, currentPage, allPages, next, pr
                 <i className="fa-solid fa-left-long" />
             </button>
 
+            {currentPage - 3 > 0 &&
+                <button
+                    className="cursor-pointer outline-none size-8 rounded-full flex items-center justify-center text-gray-800 hover:border hover:border-gray-800"
+                    onClick={() => {
+                        prev(0);
+                    }}
+                >
+                    1
+                </button>
+            }
+
             {currentPage - 2 > 0 &&
                 <span className="w-10 h-8 flex items-center justify-center">...</span>
             }
@@ -54,12 +65,23 @@ const Pagination: FC<PaginationProps> = ({style, currentPage, allPages, next, pr
             }
 
 
-            {currentPage + 2 < allPages &&
+            {currentPage + 2 <= allPages &&
                 <span className="w-10 h-8 flex items-center justify-center">...</span>
             }
 
+            {currentPage + 3 <= allPages &&
+                <button
+                    className="cursor-pointer outline-none size-8 rounded-full flex items-center justify-center text-gray-800 hover:border hover:border-gray-800"
+                    onClick={() => {
+                        next((allPages - 1) * VISIBLE_ISSUES_COUNT);
+                    }}
+                >
+                    {allPages}
+                </button>
+            }
+
             <button
-                disabled={currentPage === allPages}
+                disabled={currentPage === allPages || allPages === 0}
                 className="cursor-pointer outline-none size-8 rounded-full flex items-center justify-center bg-gray-800 text-white hover:border hover:border-gray-800 disabled:bg-gray-400 disabled:cursor-not-allowed disabled:border-none"
                 onClick={() => {
                     next();

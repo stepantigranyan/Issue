@@ -35,10 +35,10 @@ const IssuesAddModal: FC<IssuesAddModalProps> = ({onCancel, onSubmit}) => {
     }
 
     return (
-        <Popup style="border border-solid border-gray-800 rounded-2xl flex flex-col items-center justify-center gap-y-10" onCancel={onCancel}>
+        <Popup style="border border-solid border-gray-800 rounded-2xl flex flex-col  justify-center gap-y-10 min-w-100" onCancel={onCancel}>
             <h2 className="text-2xl text-gray-800 font-bold">Add new issue</h2>
             <div className="flex flex-col gap-y-10">
-                <div className="grid grid-cols-2 items-center gap-x-5">
+                <div className="flex flex-col gap-y-2">
                     <span className="text-lg text-gray-800 font-bold">Title</span>
                     <input
                         id="issue-title"
@@ -47,25 +47,25 @@ const IssuesAddModal: FC<IssuesAddModalProps> = ({onCancel, onSubmit}) => {
                         onChange={handleInputTitle}
                     />
                 </div>
-                <div className="grid grid-cols-2 items-center gap-x-5">
+                <div className="flex flex-col gap-y-2">
                     <span className="text-lg text-gray-800 font-bold">Description</span>
                     <textarea
                         id="issue-description"
-                        className="outline-none border-2 border-solid border-gray-800 px-3 py-1 rounded-xl text-gray-800 resize-none"
+                        className="outline-none text-xs border-2 border-solid border-gray-800 px-3 py-1 rounded-xl text-gray-800 resize-none h-30 w-full"
                         onChange={handleInputDescription}
                     />
                 </div>
-                <div className="grid grid-cols-2 items-center gap-x-5">
+                <div className="grid grid-cols-[1fr_2fr] items-center gap-x-2">
                     <label htmlFor="issue-title" className="text-lg text-gray-800 font-bold">Labels</label>
-                    <div className="grid grid-cols-2 items-center gap-5 w-full">
+                    <div className="flex items-center gap-x-1 gap-y-2 w-full flex-wrap">
                         {allLabels.map(({id, name, color}) => (
-                            <IssueModalLabel key={id} id={id} color={color} name={name} onCheck={setLabels} defaultCheck={false}/>
+                            <IssueModalLabel style={"px-2 py-1 text-[10px]"} key={id} id={id} color={color} name={name} onCheck={setLabels} defaultCheck={false}/>
                         ))}
                     </div>
                 </div>
-                <div className="flex items-center justify-center gap-x-10 w-full">
+                <div className="flex items-center gap-x-5 w-full">
                     <Button
-                        disabled={Boolean(!title.trim() || !description.trim() || !labels.length)}
+                        disabled={Boolean(!title.trim() || !description.trim())}
                         styles={"border-2 border-solid border-gray-800 rounded-xl hover:bg-green-800 hover:border-green-800 hover:text-white disabled:bg-gray-400 disabled:border-gray-800 disabled:text-gray-800 disabled:cursor-not-allowed"}
                         title={"Add"}
                         onSubmit={handleSubmit}

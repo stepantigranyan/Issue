@@ -5,6 +5,7 @@ import Dropdown from "../../dropdown/Dropdown.tsx";
 export interface NavbarItemProps {
     title: string;
     dropdown: MenuAttributes[] | null;
+    onClick?: () => void;
 }
 
 const NavBarItem: FC<NavbarItemProps> = ({title, dropdown}) => {

@@ -6,6 +6,7 @@ import {getOneLabel} from "../../../services/service.ts";
 import type {Label} from "../../../models/label/label.type.ts";
 
 export interface IssueModalLabelProps {
+    style?: string;
     defaultCheck: boolean;
     id: string;
     color: string;
@@ -13,7 +14,7 @@ export interface IssueModalLabelProps {
     onCheck: Dispatch<SetStateAction<Label[]>>;
 }
 
-const IssueModalLabel: FC<IssueModalLabelProps> = ({id, color, name, onCheck, defaultCheck}) => {
+const IssueModalLabel: FC<IssueModalLabelProps> = ({id, color, name, onCheck, defaultCheck, style}) => {
     const [checked, setChecked] = useState<boolean>(defaultCheck);
 
     const handleToggleCheck = (event: ChangeEvent<HTMLInputElement>) => {
@@ -31,7 +32,7 @@ const IssueModalLabel: FC<IssueModalLabelProps> = ({id, color, name, onCheck, de
     return (
         <label
                style={{"--color": color, '--checked-color': darkenHex(color, 0.3)} as CSSProperties}
-               className={`cursor-pointer flex items-center justify-center px-3 py-2 text-xs bg-(--color) rounded-full justify-self-center has-checked:bg-(--checked-color) has-checked:outline-1 has-checked:outline-gray-800 has-checked:outline-offset-2`}
+               className={`cursor-pointer flex items-center justify-center ${style} bg-(--color) rounded-full justify-self-center has-checked:bg-(--checked-color) has-checked:outline-1 has-checked:outline-gray-800 has-checked:outline-offset-2`}
         >
             <span className="text-white">{name}</span>
             <input
@@ -43,4 +44,4 @@ const IssueModalLabel: FC<IssueModalLabelProps> = ({id, color, name, onCheck, de
     );
 };
 
-export default memo(IssueModalLabel);
+export default  memo(IssueModalLabel);

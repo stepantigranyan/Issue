@@ -51,18 +51,19 @@ const IssueEditModal: FC<IssuesEditModalProps> = ({onCancel, onSubmit, data}) =>
     }
 
     return (
-        <Popup style={"border border-solid border-gray-800 rounded-2xl flex flex-col items-center gap-y-10"} onCancel={onCancel}>
+        <Popup style={"border border-solid border-gray-800 rounded-2xl flex flex-col gap-y-10"} onCancel={onCancel}>
             <h2 className="text-2xl text-gray-800 font-bold">Edit issue</h2>
             <div className="flex flex-col gap-y-5">
                 <div className="flex items-center gap-x-5 flex-wrap">
                     <input
                         ref={ref}
                         onChange={handleInputTitle}
-                        className="px-3 py-2 outline-none border-2 border-solid border-gray-800 text-gray-800 text-md font-bold"
+                        className="px-3 py-2 outline-none border-2 border-solid border-gray-800 rounded-lg text-gray-800 text-md font-bold text-sm"
                         value={title} />
                     <div className="flex items-center gap-x-2">
                         {allLabels.map(({name, color, id}) => (
                             <IssueModalLabel
+                                style={"text-[10px] px-2 py-1"}
                                 key={id}
                                 id={id}
                                 color={color}
@@ -76,14 +77,14 @@ const IssueEditModal: FC<IssuesEditModalProps> = ({onCancel, onSubmit, data}) =>
                 <textarea
                     onChange={handleInputDescription}
                     value={description}
-                    className="w-full px-3 py-2 text-gray-800 text-xs resize-none border-2 border-solid border-gray-800 h-50"
+                    className="w-full px-3 py-2 text-gray-800 text-xs resize-none border-2 border-solid border-gray-800 rounded-lg h-50 whitespace-pre-wrap break-all"
                 />
             </div>
-            <div className="flex items-center justify-center gap-x-10 w-full">
+            <div className="flex items-center gap-x-5 w-full">
                 <Button
-                    disabled={Boolean(!title.trim() || !description.trim() || !labels.length)}
+                    disabled={Boolean(!title.trim() || !description.trim())}
                     styles={"border-2 border-solid border-gray-800 rounded-xl hover:bg-green-800 hover:border-green-800 hover:text-white disabled:bg-gray-400 disabled:border-gray-800 disabled:text-gray-800 disabled:cursor-not-allowed"}
-                    title={"Add"}
+                    title={"Edit"}
                     onSubmit={handleSubmit}
                 />
                 <Button

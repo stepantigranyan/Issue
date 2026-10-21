@@ -2,6 +2,8 @@ import type {IssueRepositoryTypes} from "../../repositories/issue/issue.reposito
 import type {Issue, IssueAttributes} from "../../models/issue/issue.type.ts";
 import type {Label} from "../../models/label/label.type.ts";
 
+import {SORT} from "../../consts";
+
 export class IssueService {
     private readonly issueRepository: IssueRepositoryTypes;
 
@@ -25,7 +27,15 @@ export class IssueService {
         return this.issueRepository.update(id, data, labels);
     }
 
-    del(id: string): void {
-        this.issueRepository.delete(id);
+    del(id: string): Issue {
+        return this.issueRepository.delete(id);
+    }
+
+    sort(type: SORT) {
+        return this.issueRepository.sort(type);
+    }
+
+    search(title: string): Issue[] {
+        return this.issueRepository.search(title);
     }
  }

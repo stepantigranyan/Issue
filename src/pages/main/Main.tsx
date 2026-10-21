@@ -15,11 +15,11 @@ import {issueService} from "../../services/service.ts";
 
 import {generateId} from "../../utils/generateId";
 import IssuesTable from "../../components/issuesTable/IssuesTable.tsx";
-import {useState} from "react";
-import type {Issue, IssueAttributes} from "../../models/issue/issue.type.ts";
-import type {Label} from "../../models/label/label.type.ts";
+import {memo, useCallback, useMemo, useState} from "react";
+import type {Issue} from "../../models/issue/issue.type.ts";
 import {VISIBLE_ISSUES_COUNT} from "../../consts";
 import IssueInfoModal from "../../components/modal/issue/info/IssueInfoModal.tsx";
+import {SORT} from "../../consts";
 
 const Main = () => {
     const [currentIssue, setCurrentIssue] = useState<Issue>({} as Issue);
@@ -37,27 +37,30 @@ const Main = () => {
 
     const {
         issues,
+        searchedIssues,
         currentIssueNumber,
-        allIssues,
+        allIssuesCount,
         addIssue,
         editIssue,
         deleteIssue,
         nextIssues,
         previousIssues,
+        sortByNames,
+        searchIssues,
     } = useIssueService(issueService);
 
-    const handleEditIssue = (id: string, data: IssueAttributes, labels: Label[]) => {
-        setCurrentIssue({id, labels, ...data});
+    const handleEditIssue = useCallback((id: string) => {
+        setCurrentIssue(issueService.getOne(id));
         toggleEditIssue();
-    };
+    }, [toggleEditIssue]);
 
-    const handleInfoIssue = (id: string, data: IssueAttributes, labels: Label[]) => {
-        setCurrentIssue({id, labels, ...data});
+    const handleInfoIssue = useCallback((id: string) => {
+        setCurrentIssue(issueService.getOne(id));
         toggleInfoIssue();
-    };
+    }, [toggleInfoIssue]);
 
-    const currentPage = currentIssueNumber / VISIBLE_ISSUES_COUNT + 1;
-    const allPages = Math.ceil(allIssues / VISIBLE_ISSUES_COUNT)
+    const currentPage = useMemo(() => currentIssueNumber / VISIBLE_ISSUES_COUNT + 1, [currentIssueNumber]);
+    const allPages = useMemo(() => Math.ceil(allIssuesCount / VISIBLE_ISSUES_COUNT), [allIssuesCount]);
 
     return (
         <>
@@ -65,7 +68,7 @@ const Main = () => {
             {showEditIssue && <IssueEditModal data={currentIssue} onSubmit={editIssue} onCancel={toggleEditIssue} />}
             {showAddLabel && <LabelAddModal onCancel={toggleAddLabel} />}
             {showInfoIssue && <IssueInfoModal data={currentIssue} onCancel={toggleInfoIssue} />}
-            <div className={`w-4/5 my-0 mx-auto flex flex-col items-center gap-y-30`}>
+            <div className={`w-4/5 my-0 mx-auto flex flex-col items-center gap-y-10`}>
                 <Header styles={"mt-20"}>
                     <h1 className="text-3xl font-bold">Issues</h1>
                     <div className="flex items-center gap-x-5">
@@ -84,38 +87,29 @@ const Main = () => {
                 <main className="w-full flex items-center justify-center">
                     <div className="w-full h-2/3 flex flex-col items-center justify-between border-5 border-solid border-gray-800 rounded-2xl pb-5">
                         <Header styles={"border-b-2 border-b-solid border-b-gray-800"}>
-                            <Search />
+                            <Search onSubmit={searchIssues} data={searchedIssues} onInfo={handleInfoIssue}/>
                             <Navbar data={[
                                 {
                                     id: generateId(5),
-                                    title: "Issues",
+                                    title: "Sort Issues",
                                     dropdown: [
                                         {   id: generateId(5),
-                                            title: "Show issues (A-Z)",
+                                            title: "By (A-Z)",
+                                            onClick: () => {
+                                                sortByNames(SORT.ASC)
+                                            },
                                             dropdown: null,
                                         },
                                         {
                                             id: generateId(5),
-                                            title: "Show issues (Z-A)",
+                                            title: "By (Z-A)",
+                                            onClick: () => {
+                                                sortByNames(SORT.DESC)
+                                            },
                                             dropdown: null,
                                         },
                                     ],
                                 },
-                                {
-                                    id: generateId(5),
-                                    title: "Labels",
-                                    dropdown: [
-                                        {   id: generateId(5),
-                                            title: "Show labels (A-Z)",
-                                            dropdown: null,
-                                        },
-                                        {
-                                            id: generateId(5),
-                                            title: "Show labels (Z-A)",
-                                            dropdown: null,
-                                        },
-                                    ],
-                                }
                             ]} />
                         </Header>
                         <IssuesTable
@@ -132,4 +126,4 @@ const Main = () => {
     );
 };
 
-export default Main;
+export default memo(Main);

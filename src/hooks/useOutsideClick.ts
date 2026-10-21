@@ -8,6 +8,7 @@ function useOutsideClick(ref: RefObject<HTMLDivElement | null>,  cb: () => void)
                 cb();
             }
         }
+
         document.addEventListener("mousedown", handleClickOutside);
         return () => {
             document.removeEventListener("mousedown", handleClickOutside);
